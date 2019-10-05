@@ -7,6 +7,7 @@
     "build:comments": "gulp build:comments",
     "build:hugo": "hugo --ignoreCache",
     "build:functions": "npx netlify-lambda build src/functions",
+    "build:lambda": "netlify-lambda build src/lambda"
     "watch": "npm run build:comments && npm-run-all --parallel watch:hugo watch:functions",
     "watch:hugo": "hugo --disableFastRender --ignoreCache --watch server",
     "watch:functions": "npx netlify-lambda serve src/functions"
@@ -15,7 +16,8 @@
     "dotenv": "^6.2.0",
     "gravatar": "^1.8.0",
     "gulp": "^4.0.2",
-    "netlify-lambda": "^0.4.0",
+    "netlify-lambda": "^1.0.2",
+    "axios": "^0.18.0"
     "request": "^2.88.0"
   },
   "devDependencies": {
