@@ -1,29 +1,18 @@
-import { APIGatewayEvent, APIGatewayEventRequestContext } from 'aws-lambda';
-import fetch from 'isomorphic-fetch';
-import cheerio from 'cheerio';
-export async function handler(
-  event: APIGatewayEvent,
-  context: APIGatewayEventRequestContext
-) {
-  const message = await fetch(
-    'https://twitter.com/swyx/status/1096268437393821696'
-  )
-    .then(async res => {
-      const text = await res.text();
+const axios = require( 'axios' );
+const API_ENDPOINT = 'https://api.subsume.io/hertingfordbury/v1/meetings';
 
-      const $ = cheerio.load(text);
-      // document.querySelectorAll('.permalink-tweet-container .tweet-text')
-      const tweetText = $('.permalink-tweet-container .tweet-text').text();
-      return tweetText;
-    })
-    .catch(err => {
-      console.error('error occured with ', err);
-      throw new Error(err);
-    });
-  return {
-    statusCode: 200,
-    body: JSON.stringify({
-      message
-    })
-  };
-}
+exports.handler = ( event, context, callback ) => {
+	axios.get( API_ENDPOINT )
+		.then( ( response ) => {
+			callback( null, {
+				headers: {
+					'content-type': 'application/json;charset=utf-8'
+				},
+				statusCode: 200,
+				body: JSON.stringify( response.data )
+			} );
+		} )
+		.catch( ( error ) => {
+			callback( error );
+		} );
+};
